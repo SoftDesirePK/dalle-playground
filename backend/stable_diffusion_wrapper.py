@@ -1,4 +1,6 @@
 from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
+from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
+
 import torch
 
 class StableDiffusionWrapper:
