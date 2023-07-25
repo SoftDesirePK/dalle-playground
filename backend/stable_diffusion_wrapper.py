@@ -8,7 +8,7 @@ class StableDiffusionWrapper:
         repo_id = "stabilityai/stable-diffusion-2-base"
         repo_id = "stabilityai/stable-diffusion-2-1"
         #repo_id = "stabilityai/stable-diffusion-xl-base-0.9"
-        repo_id = "runwayml/stable-diffusion-v1-5"
+        #repo_id = "runwayml/stable-diffusion-v1-5"
 
         # Create pipeline according to repo/model
         if repo_id == "stabilityai/stable-diffusion-2-base":
