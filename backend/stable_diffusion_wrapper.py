@@ -32,7 +32,7 @@ class StableDiffusionWrapper:
             pipe = pipe.to("cuda")
         
         if repo_id == "dreamlike-art/dreamlike-photoreal-2.0":     # has license
-            pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+            pipe = StableDiffusionPipeline.from_pretrained(repo_id, torch_dtype=torch.float16)
             pipe = pipe.to("cuda")
 
         
