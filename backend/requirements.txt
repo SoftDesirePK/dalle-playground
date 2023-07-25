@@ -7,3 +7,5 @@ flask_cloudflared
 accelerate
 transformers
 diffusers
+scipy
+safetensors
