@@ -5,6 +5,7 @@ class StableDiffusionWrapper:
     def __init__(self) -> None:
         repo_id = "stabilityai/stable-diffusion-2-base"
         repo_id = "stabilityai/stable-diffusion-2-1"
+        repo_id = "stabilityai/stable-diffusion-xl-base-0.9"
 
         pipe = DiffusionPipeline.from_pretrained(
             repo_id, revision="fp16",
