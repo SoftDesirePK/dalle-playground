@@ -54,31 +54,33 @@ def generate_images_api():        # main endpoint for the application
 
 @app.route("/generatevdo", methods=["POST"])
 @cross_origin()
-def generate_video_api():
-    json_data = request.get_json(force=True)
+def generate_frames_from_text_prompt(json_data):
+    """Generates a sequence of frames from a text prompt.
+
+    Args:
+        json_data (dict): The JSON data containing the text prompt and the number of frames to generate.
+
+    Returns:
+        list: A list of the generated frames, encoded as base64 strings.
+    """
+
     text_prompt = json_data["text"]
     num_frames = json_data["num_frames"]
-    generated_frames = stable_diff_model.generate_frames(text_prompt, num_frames)
+
+    pipe = DiffusionPipeline.from_pretrained("cerspense/zeroscope_v2_576w", torch_dtype=torch.float16)
+    pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
+    pipe.enable_model_cpu_offload()
+
+    generated_frames = pipe(text_prompt, num_inference_steps=40, height=320, width=576, num_frames=num_frames).frames
 
     returned_generated_frames = []
-    if args.save_to_disk:
-        dir_name = os.path.join(args.output_dir,f"{time.strftime('%Y-%m-%d_%H-%M-%S')}_{text_prompt}")[:MAX_FILE_NAME_LEN]
-        Path(dir_name).mkdir(parents=True, exist_ok=True)
-    
     for idx, frame in enumerate(generated_frames):
-        if args.save_to_disk: 
-          img.save(os.path.join(dir_name, f'{idx}.{args.img_format}'), format=args.img_format)
-
         buffered = BytesIO()
-        frame.save(buffered, format=args.img_format)
+        frame.save(buffered, format="png")
         img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
         returned_generated_frames.append(img_str)
 
-    print(f"Created {num_frames} frames from text prompt [{text_prompt}]")
-    
-    response = {'generatedFrames': returned_generated_frames,
-    'generatedFramesFormat': args.img_format}
-    return jsonify(response)
+    return returned_generated_frames
 
 
 
