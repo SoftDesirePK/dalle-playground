@@ -11,6 +11,7 @@ from stable_diffusion_wrapper import StableDiffusionWrapper
 from consts import DEFAULT_IMG_OUTPUT_DIR, MAX_FILE_NAME_LEN
 from utils import parse_arg_boolean
 
+import numpy as np
 import torch
 from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
 from diffusers.utils import export_to_video
@@ -78,6 +79,8 @@ def generate_frames_from_text_prompt():
     pipe.enable_model_cpu_offload()
 
     generated_frames = pipe(text_prompt, num_inference_steps=40, height=320, width=576, num_frames=num_frames).frames
+    # Make the generated frames C-contiguous.
+    generated_frames = np.ascontiguousarray(generated_frames)
 
     #returned_generated_frames = []
     #for idx, frame in enumerate(generated_frames):
@@ -86,11 +89,8 @@ def generate_frames_from_text_prompt():
      #   img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
      #   returned_generated_frames.append(img_str)
     
-    #response = jsonify({"generatedFrames": [base64.b64encode(frame).decode("utf-8") for frame in generated_frames]})
-    response = Response(
-        content=json.dumps({"generatedFrames": [base64.b64encode(frame).decode("utf-8") for frame in generated_frames]}),
-        content_type="application/json",
-    )
+    response = jsonify({"generatedFrames": [base64.b64encode(frame).decode("utf-8") for frame in generated_frames]})
+    #response = Response(content=json.dumps({"generatedFrames": [base64.b64encode(frame).decode("utf-8") for frame in generated_frames]}),content_type="application/json",)
     return response
 
 
