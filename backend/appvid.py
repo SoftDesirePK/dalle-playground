@@ -77,8 +77,7 @@ def generate_frames_from_text_prompt():
     pipe = DiffusionPipeline.from_pretrained("cerspense/zeroscope_v2_576w", torch_dtype=torch.float16)
     pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
     pipe.enable_model_cpu_offload()
-
-    generated_frames = pipe(text_prompt, num_inference_steps=40, height=320, width=576, num_frames=num_frames).frames
+    video_frames = pipe(text_prompt, num_inference_steps=40, height=320, width=576, num_frames=num_frames).frames
     # Export the sequence of frames to a video file.
     video_path = export_to_video(video_frames)
 
