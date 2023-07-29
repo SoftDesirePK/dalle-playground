@@ -11,6 +11,7 @@ from stable_diffusion_wrapper import StableDiffusionWrapper
 from consts import DEFAULT_IMG_OUTPUT_DIR, MAX_FILE_NAME_LEN
 from utils import parse_arg_boolean
 
+import torch
 from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
 from diffusers.utils import export_to_video
 
