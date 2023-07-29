@@ -11,7 +11,7 @@ from stable_diffusion_wrapper import StableDiffusionWrapper
 from consts import DEFAULT_IMG_OUTPUT_DIR, MAX_FILE_NAME_LEN
 from utils import parse_arg_boolean
 
-app = Flask(__name__)
+app = Flask(__name__)    #  Flask application object. 
 CORS(app)        # allows the application to be accessed from other domains
 print("--> Starting the image generation server. This might take up to two minutes.")
 
@@ -26,7 +26,7 @@ args = parser.parse_args()
 
 @app.route("/generate", methods=["POST"])
 @cross_origin()
-def generate_images_api():
+def generate_images_api():        # main endpoint for the application
     json_data = request.get_json(force=True)
     text_prompt = json_data["text"]
     num_images = json_data["num_images"]
@@ -51,6 +51,36 @@ def generate_images_api():
     response = {'generatedImgs': returned_generated_images,
     'generatedImgsFormat': args.img_format}
     return jsonify(response)
+
+@app.route("/generatevdo", methods=["POST"])
+@cross_origin()
+def generate_video_api():
+    json_data = request.get_json(force=True)
+    text_prompt = json_data["text"]
+    num_frames = json_data["num_frames"]
+    generated_frames = stable_diff_model.generate_frames(text_prompt, num_frames)
+
+    returned_generated_frames = []
+    if args.save_to_disk:
+        dir_name = os.path.join(args.output_dir,f"{time.strftime('%Y-%m-%d_%H-%M-%S')}_{text_prompt}")[:MAX_FILE_NAME_LEN]
+        Path(dir_name).mkdir(parents=True, exist_ok=True)
+    
+    for idx, frame in enumerate(generated_frames):
+        if args.save_to_disk: 
+          img.save(os.path.join(dir_name, f'{idx}.{args.img_format}'), format=args.img_format)
+
+        buffered = BytesIO()
+        frame.save(buffered, format=args.img_format)
+        img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+        returned_generated_frames.append(img_str)
+
+    print(f"Created {num_frames} frames from text prompt [{text_prompt}]")
+    
+    response = {'generatedFrames': returned_generated_frames,
+    'generatedFramesFormat': args.img_format}
+    return jsonify(response)
+
+
 
 
 @app.route("/", methods=["GET"])
