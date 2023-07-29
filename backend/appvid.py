@@ -79,14 +79,14 @@ def generate_frames_from_text_prompt():
 
     generated_frames = pipe(text_prompt, num_inference_steps=40, height=320, width=576, num_frames=num_frames).frames
 
-    returned_generated_frames = []
-    for idx, frame in enumerate(generated_frames):
-        buffered = BytesIO()
-        frame.save(buffered, format="png")
-        img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
-        returned_generated_frames.append(img_str)
+    #returned_generated_frames = []
+    #for idx, frame in enumerate(generated_frames):
+     #   buffered = BytesIO()
+     #   frame.save(buffered, format="png")
+     #   img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+     #   returned_generated_frames.append(img_str)
 
-    return returned_generated_frames
+    return generated_frames
 
 
 
