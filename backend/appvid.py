@@ -12,7 +12,7 @@ from consts import DEFAULT_IMG_OUTPUT_DIR, MAX_FILE_NAME_LEN
 from utils import parse_arg_boolean
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)        # allows the application to be accessed from other domains
 print("--> Starting the image generation server. This might take up to two minutes.")
 
 stable_diff_model = None
