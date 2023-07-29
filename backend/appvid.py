@@ -68,7 +68,7 @@ def generate_frames_from_text_prompt():
     Returns:
         list: A list of the generated frames, encoded as base64 strings.
     """
-
+    json_data = request.get_json(force=True)
     text_prompt = json_data["text"]
     num_frames = json_data["num_frames"]
 
