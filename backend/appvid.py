@@ -86,7 +86,11 @@ def generate_frames_from_text_prompt():
      #   img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
      #   returned_generated_frames.append(img_str)
     
-    response = jsonify({"generatedFrames": [base64.b64encode(frame).decode("utf-8") for frame in generated_frames]})
+    #response = jsonify({"generatedFrames": [base64.b64encode(frame).decode("utf-8") for frame in generated_frames]})
+    response = Response(
+        content=json.dumps({"generatedFrames": [base64.b64encode(frame).decode("utf-8") for frame in generated_frames]}),
+        content_type="application/json",
+    )
     return response
 
 
