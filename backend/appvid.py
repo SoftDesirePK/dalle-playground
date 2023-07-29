@@ -59,7 +59,7 @@ def generate_images_api():        # main endpoint for the application
 # GENERATE VIDEO FRAMES
 @app.route("/generatevdo", methods=["POST"])
 @cross_origin()
-def generate_frames_from_text_prompt(json_data):
+def generate_frames_from_text_prompt():
     """Generates a sequence of frames from a text prompt.
 
     Args:
