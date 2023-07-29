@@ -11,6 +11,9 @@ from stable_diffusion_wrapper import StableDiffusionWrapper
 from consts import DEFAULT_IMG_OUTPUT_DIR, MAX_FILE_NAME_LEN
 from utils import parse_arg_boolean
 
+from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
+from diffusers.utils import export_to_video
+
 app = Flask(__name__)    #  Flask application object. 
 CORS(app)        # allows the application to be accessed from other domains
 print("--> Starting the image generation server. This might take up to two minutes.")
@@ -24,6 +27,7 @@ parser.add_argument("--img_format", type = str.lower, default = "JPEG", help = "
 parser.add_argument("--output_dir", type = str, default = DEFAULT_IMG_OUTPUT_DIR, help = "Customer directory for generated images")
 args = parser.parse_args()
 
+# GENERATE IMAGE
 @app.route("/generate", methods=["POST"])
 @cross_origin()
 def generate_images_api():        # main endpoint for the application
@@ -52,6 +56,7 @@ def generate_images_api():        # main endpoint for the application
     'generatedImgsFormat': args.img_format}
     return jsonify(response)
 
+# GENERATE VIDEO FRAMES
 @app.route("/generatevdo", methods=["POST"])
 @cross_origin()
 def generate_frames_from_text_prompt(json_data):
