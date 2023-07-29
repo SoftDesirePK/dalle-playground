@@ -79,18 +79,11 @@ def generate_frames_from_text_prompt():
     pipe.enable_model_cpu_offload()
 
     generated_frames = pipe(text_prompt, num_inference_steps=40, height=320, width=576, num_frames=num_frames).frames
-    # Make the generated frames C-contiguous.
-    generated_frames = np.ascontiguousarray(generated_frames)
+    # Export the sequence of frames to a video file.
+    video_path = export_to_video(video_frames)
 
-    #returned_generated_frames = []
-    #for idx, frame in enumerate(generated_frames):
-     #   buffered = BytesIO()
-     #   frame.save(buffered, format="png")
-     #   img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
-     #   returned_generated_frames.append(img_str)
-    
-    response = jsonify({"generatedFrames": [base64.b64encode(frame).decode("utf-8") for frame in generated_frames]})
-    #response = Response(content=json.dumps({"generatedFrames": [base64.b64encode(frame).decode("utf-8") for frame in generated_frames]}),content_type="application/json",)
+    # Return the video path as a response.
+    response = jsonify({"videoPath": video_path})
     return response
 
 
