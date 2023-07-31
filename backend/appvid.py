@@ -79,7 +79,7 @@ def generate_frames_from_text_prompt():
     pipe.enable_model_cpu_offload()
     video_frames = pipe(text_prompt, num_inference_steps=20, height=320, width=576, num_frames=num_frames).frames
     # Export the sequence of frames to a video file.
-    video_path = export_to_video(video_frames)
+    video_path = export_to_video(video_frames) 
 
     # Return the video path as a response.
     response = jsonify({"video_path": video_path})
