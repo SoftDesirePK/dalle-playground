@@ -91,6 +91,7 @@ def generate_frames_from_text_prompt():
     with open(video_path, "rb") as f:
         video = f.read()
     response = Response(video, content_type="video/mp4")
+    response = jsonify(response.data)
     return response
 
 
