@@ -82,7 +82,7 @@ def generate_frames_from_text_prompt():
     video_path = export_to_video(video_frames)
 
     # Return the video path as a response.
-    response = jsonify({"videoPath": video_path})
+    response = jsonify({"video_path": video_path})
     return response
 
 
