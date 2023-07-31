@@ -70,15 +70,17 @@ def generate_frames_from_text_prompt():
     Returns:
         list: A list of the generated frames, encoded as base64 strings.
     """
+    print("Generating Video")
     json_data = request.get_json(force=True)
     text_prompt = json_data["text"]
     num_frames = json_data["num_frames"]
-
+    print(f"Parameter Received:\n json_data = {json_data}\n text_prompt = {text+prompt}\n num_frames = {num_frames}")
     pipe = DiffusionPipeline.from_pretrained("cerspense/zeroscope_v2_576w", torch_dtype=torch.float16)
     pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
     pipe.enable_model_cpu_offload()
     video_frames = pipe(text_prompt, num_inference_steps=20, height=320, width=576, num_frames=num_frames).frames
     # Export the sequence of frames to a video file.
+    print("Exporting frames to video")
     video_path = export_to_video(video_frames) 
 
     # Return the video path as a response.
