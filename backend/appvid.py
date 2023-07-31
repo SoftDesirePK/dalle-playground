@@ -86,8 +86,10 @@ def generate_frames_from_text_prompt():
     print("Exporting frames to video")
     video_path = export_to_video(video_frames) 
 
-    # Return the video path as a response.
-    response = jsonify({"video_path": video_path})
+    # Return the video as a response.
+    with open(video_path, "rb") as f:
+        video = f.read()
+    response = Response(video, content_type="video/mp4")
     return response
 
 
