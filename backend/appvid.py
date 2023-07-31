@@ -86,10 +86,12 @@ def generate_frames_from_text_prompt():
     # Export the sequence of frames to a video file.
     print("Exporting frames to video")
     video_path = export_to_video(video_frames) 
+    print(f"Video generated: {video_path}")
     
     # Return the video as a response.
     with open(video_path, "rb") as f:
         video = f.read()
+        print(f"Video has been read")
     response = Response(video, content_type="video/mp4")
     #response = video_path
     return response
