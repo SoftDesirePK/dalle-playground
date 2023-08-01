@@ -16,7 +16,7 @@ import torch
 from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
 from diffusers.utils import export_to_video
 from flask import Response
-# Appppppp
+# App
 app = Flask(__name__)    #  Flask application object. 
 CORS(app)        # allows the application to be accessed from other domains
 print("--> Starting the image generation server. This might take up to two minutes.")
