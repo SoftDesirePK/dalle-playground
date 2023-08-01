@@ -7,6 +7,7 @@ import time
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
+
 from stable_diffusion_wrapper import StableDiffusionWrapper
 from consts import DEFAULT_IMG_OUTPUT_DIR, MAX_FILE_NAME_LEN
 from utils import parse_arg_boolean
@@ -17,6 +18,7 @@ from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
 from diffusers.utils import export_to_video
 from flask import Response
 # App
+
 app = Flask(__name__)    #  Flask application object. 
 CORS(app)        # allows the application to be accessed from other domains
 print("--> Starting the flacon7b query server. This might take few minutes depending upon download speed.")
@@ -33,6 +35,7 @@ args = parser.parse_args()
 
 model = None
 llm = None
+pipeline = None
 
 # GENERATE FALCON7B RESPONSE - Last Modifed on 01-08-2023
 @app.route("/queryfalcon", methods=["POST"])
@@ -43,10 +46,7 @@ def generate_response():
     json_data = request.get_json(force=True)
     text_prompt = json_data["text"]
     print(f"Parameter Received:\n json_data = {json_data}")
-    
-
-
-    
+       
     response = ""
     return response
     
@@ -84,8 +84,8 @@ with app.app_context():
     pad_token_id=tokenizer.eos_token_id,
     )
 
-    from langchain import HuggingFacePipeline
-    llm = HuggingFacePipeline(pipeline=pipeline)
+    # from langchain import HuggingFacePipeline
+    # llm = HuggingFacePipeline(pipeline=pipeline)
 
     # question = "What is the capital of Saudi Arabia."
     # template = """Question: {question}
