@@ -25,6 +25,9 @@ class FalconWrapper:
         import os
         os.environ["SWAP_ENABLED"] = "True"
         os.environ["SWAP_THRESHOLD"] = "9"
+        import gc
+
+        gc.collect()
 
         model = "tiiuae/falcon-7b-instruct"
 

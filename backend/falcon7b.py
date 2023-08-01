@@ -21,7 +21,7 @@ from flask import Response
 
 app = Flask(__name__)    #  Flask application object. 
 CORS(app)        # allows the application to be accessed from other domains
-print("--> Starting the flacon7b query server. This might take few minutes depending upon download speed.")
+print("--> Starting the flacon7b query server. This might take few minutes depending upon download speed or size of model.")
 
 
 parser = argparse.ArgumentParser(description = "A text-to-image app to turn your textual prompts into visionary delights")
