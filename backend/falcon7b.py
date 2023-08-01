@@ -33,7 +33,7 @@ args = parser.parse_args()
 
 
 
-llm_model = None
+llm_chain = None
 
 
 # GENERATE FALCON7B RESPONSE - Last Modifed on 01-08-2023
@@ -60,7 +60,7 @@ def health_check():
 with app.app_context():
     # stable_diff_model = StableDiffusionWrapper()
 
-    llm_model = FalconWrapper()
+    llm_chain = FalconWrapper()
 
 
     print("--> Falcon7b-instruct query server is up and running!")
