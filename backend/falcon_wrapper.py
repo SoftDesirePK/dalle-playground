@@ -3,6 +3,7 @@ from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
 
 import torch
 
+llm_chain = None
 class FalconWrapper:
     def __init__(self) -> None:
         from transformers import AutoTokenizer
@@ -32,29 +33,24 @@ class FalconWrapper:
         pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
         self.pipe = pipe.to("cuda")
 
-        # from langchain import HuggingFacePipeline
-        # llm = HuggingFacePipeline(pipeline=pipeline)
+        from langchain import HuggingFacePipeline
+        llm = HuggingFacePipeline(pipeline=pipeline)
 
-        # question = "What is the capital of Saudi Arabia."
-        # template = """Question: {question}
-        # Answer: """
-        # prompt = PromptTemplate(template=template, input_variables=["question"])
-        # llm_chain = LLMChain(prompt=prompt, llm=llm)
-        # result = llm_chain.run(question)
-        # print(f"Warning: Test Result ->>>> {result}")
+        question = "What is the capital of Saudi Arabia."
+        template = """Question: {question}
+        Answer: """
+        prompt = PromptTemplate(template=template, input_variables=["question"])
+
+        llm_chain = LLMChain(prompt=prompt, llm=llm)
+        result = llm_chain.run(question)
+        print(f"Warning: Test Result ->>>> {result}")
 
  
 
             
     def generate_query_response(self, text_prompt: str):
-        from langchain import HuggingFacePipeline
-        llm = HuggingFacePipeline(pipeline=pipeline)
 
         question = text_prompt
-        template = """Question: {question}
-        Answer: """
-        prompt = PromptTemplate(template=template, input_variables=["question"])
-        llm_chain = LLMChain(prompt=prompt, llm=llm)
         result = llm_chain.run(question)
         print(f"Warning: Result ->>>> {result}")
 
