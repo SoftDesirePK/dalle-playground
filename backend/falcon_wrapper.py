@@ -22,6 +22,9 @@ class FalconWrapper:
         from transformers import AutoTokenizer
         from langchain import PromptTemplate, LLMChain
 
+        import os
+        os.environ["SWAP_ENABLED"] = "True"
+
         model = "tiiuae/falcon-7b-instruct"
 
         tokenizer = AutoTokenizer.from_pretrained(model)
