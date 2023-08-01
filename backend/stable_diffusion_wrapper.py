@@ -13,10 +13,7 @@ class StableDiffusionWrapper:
 
         # Create pipeline according to repo/model
         if repo_id == "stabilityai/stable-diffusion-2-base":
-            pipe = DiffusionPipeline.from_pretrained(
-                repo_id, revision="fp16",
-                torch_dtype=torch.float16
-            )
+            pipe = DiffusionPipeline.from_pretrained(repo_id, revision="fp16",torch_dtype=torch.float16)
 
         if repo_id == "stabilityai/stable-diffusion-2-1":
             pipe = StableDiffusionPipeline.from_pretrained(repo_id, torch_dtype=torch.float16)

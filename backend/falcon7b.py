@@ -56,8 +56,8 @@ def health_check():
 
 
 with app.app_context():
-    stable_diff_model = StableDiffusionWrapper()
-    print("--> Image generation server is up and running!")
+    # stable_diff_model = StableDiffusionWrapper()
+    print("--> Falcon7b-instruct  server is up and running!")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=args.port, debug=False)
