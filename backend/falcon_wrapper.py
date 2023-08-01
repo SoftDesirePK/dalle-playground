@@ -29,7 +29,7 @@ class FalconWrapper:
         import torch
         import transformers
         
-        self.release_zombie_memory()
+        self.release_zombie_memory
 
         pipeline = transformers.pipeline(
             "text-generation",
