@@ -29,6 +29,10 @@ class FalconWrapper:
 
         gc.collect()
 
+        import torch
+
+        torch.cuda.empty_cache()
+
         model = "tiiuae/falcon-7b-instruct"
 
         tokenizer = AutoTokenizer.from_pretrained(model)
