@@ -19,7 +19,7 @@ from flask import Response
 # App
 app = Flask(__name__)    #  Flask application object. 
 CORS(app)        # allows the application to be accessed from other domains
-print("--> Starting the flacon7b query server. This might take up to two minutes.")
+print("--> Starting the flacon7b query server. This might take few minutes depending upon download speed.")
 
 
 parser = argparse.ArgumentParser(description = "A text-to-image app to turn your textual prompts into visionary delights")
@@ -87,13 +87,13 @@ with app.app_context():
     from langchain import HuggingFacePipeline
     llm = HuggingFacePipeline(pipeline=pipeline)
 
-    question = "What is the capital of Saudi Arabia."
-    template = """Question: {question}
-    Answer: """
-    prompt = PromptTemplate(template=template, input_variables=["question"])
-    llm_chain = LLMChain(prompt=prompt, llm=llm)
-    result = llm_chain.run(question)
-    print(f"Warning: Test Result ->>>> {result}")
+    # question = "What is the capital of Saudi Arabia."
+    # template = """Question: {question}
+    # Answer: """
+    # prompt = PromptTemplate(template=template, input_variables=["question"])
+    # llm_chain = LLMChain(prompt=prompt, llm=llm)
+    # result = llm_chain.run(question)
+    # print(f"Warning: Test Result ->>>> {result}")
 
 
     print("--> Falcon7b-instruct query server is up and running!")
