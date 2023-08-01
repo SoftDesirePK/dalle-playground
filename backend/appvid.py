@@ -59,7 +59,7 @@ def generate_images_api():        # main endpoint for the application
     'generatedImgsFormat': args.img_format}
     return jsonify(response)
 
-# GENERATE VIDEO FRAMES
+# GENERATE VIDEO FRAMES - Modifed on 27-07-2023
 @app.route("/generatevdo", methods=["POST"])
 @cross_origin()
 def generate_frames_from_text_prompt():
