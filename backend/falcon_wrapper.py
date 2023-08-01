@@ -7,6 +7,17 @@ import time
 llm_chain = None
 
 class FalconWrapper:
+    def release_zombie_memory():
+        for proc in psutil.process_iter(["cmdline"]):
+            try:
+                cmdline = proc.info["cmdline"]
+                if len(cmdline) == 2 and cmdline[0] == "python":
+                    if proc.status == psutil.STATUS_ZOMBIE:
+                        proc.terminate()
+                        proc.wait()
+            except psutil.Error:
+                pass
+
     def __init__(self) -> None:
         from transformers import AutoTokenizer
         from langchain import PromptTemplate, LLMChain
@@ -17,6 +28,8 @@ class FalconWrapper:
 
         import torch
         import transformers
+        
+        release_zombie_memory()
 
         pipeline = transformers.pipeline(
             "text-generation",
@@ -33,7 +46,7 @@ class FalconWrapper:
             pad_token_id=tokenizer.eos_token_id,
         )
 
-        time.sleep(5)
+        time.sleep(5)       # process is crashed due to RAM so trying to stop the process to wait the memory clear
         # Create the pipe schedular
         # pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
         # self.pipe = pipe.to("cuda")
