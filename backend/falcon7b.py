@@ -19,7 +19,7 @@ from flask import Response
 # App
 app = Flask(__name__)    #  Flask application object. 
 CORS(app)        # allows the application to be accessed from other domains
-print("--> Starting the flacon7b generation server. This might take up to two minutes.")
+print("--> Starting the flacon7b query server. This might take up to two minutes.")
 
 
 parser = argparse.ArgumentParser(description = "A text-to-image app to turn your textual prompts into visionary delights")
@@ -57,7 +57,7 @@ def health_check():
 
 with app.app_context():
     # stable_diff_model = StableDiffusionWrapper()
-    print("--> Falcon7b-instruct  server is up and running!")
+    print("--> Falcon7b-instruct query server is up and running!")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=args.port, debug=False)
