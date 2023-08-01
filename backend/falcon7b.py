@@ -31,6 +31,9 @@ args = parser.parse_args()
 
 
 
+model = None
+llm = None
+
 # GENERATE FALCON7B RESPONSE - Last Modifed on 01-08-2023
 @app.route("/queryfalcon", methods=["POST"])
 @cross_origin()
@@ -57,6 +60,42 @@ def health_check():
 
 with app.app_context():
     # stable_diff_model = StableDiffusionWrapper()
+
+    from transformers import AutoTokenizer
+    from langchain import PromptTemplate, LLMChain
+    import torch
+    import transformers
+    
+    model = "tiiuae/falcon-7b-instruct"
+    tokenizer = AutoTokenizer.from_pretrained(model)
+
+    pipeline = transformers.pipeline(
+    "text-generation",
+    model=model,
+    tokenizer=tokenizer,
+    torch_dtype=torch.bfloat16,
+    trust_remote_code=True,
+    device_map="auto",
+    max_length=200,
+    do_sample=True,
+    top_k=10,
+    num_return_sequences=1,
+    eos_token_id=tokenizer.eos_token_id,
+    pad_token_id=tokenizer.eos_token_id,
+    )
+
+    from langchain import HuggingFacePipeline
+    llm = HuggingFacePipeline(pipeline=pipeline)
+
+    question = "What is the capital of Saudi Arabia."
+    template = """Question: {question}
+    Answer: """
+    prompt = PromptTemplate(template=template, input_variables=["question"])
+    llm_chain = LLMChain(prompt=prompt, llm=llm)
+    result = llm_chain.run(question)
+    print(f"Warning: Test Result ->>>> {result}")
+
+
     print("--> Falcon7b-instruct query server is up and running!")
 
 if __name__ == "__main__":
