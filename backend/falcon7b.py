@@ -99,4 +99,4 @@ with app.app_context():
     print("--> Falcon7b-instruct query server is up and running!")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=args.port, debug=False)
+    app.run(host="0.0.0.0", port=args.port, debug=True)
