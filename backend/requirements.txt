@@ -9,3 +9,5 @@ transformers
 diffusers
 scipy
 safetensors
+Werkzeug==2.2.2
+
